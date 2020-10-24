@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import "./Products";
 import Products from "./Products";
 function Home() {
+  const [products, setproduct] = useState([]);
+
+  useEffect(() => {
+    const getproductData = async () => {
+      fetch("https://fakestoreapi.com/products?limit=5")
+        .then((response) => response.json())
+        .then((data) => {
+          const products = data.map((product) => ({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+          }));
+
+          setproduct(products);
+        });
+    };
+
+    getproductData();
+  }, []);
+
   return (
     <div className="home">
       <img
@@ -10,80 +31,15 @@ function Home() {
         className="home__banner"
       />
       <div className="home__row">
-        <Products
-          id="123456"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-        <Products
-          id="7891230"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-        <Products
-          id="123456"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-        <Products
-          id="7891230"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-      </div>
-      <div className="home__row">
-        <Products
-          id="7891230"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />{" "}
-        <Products
-          id="123456"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-        <Products
-          id="7891230"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-        <Products
-          id="123456"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-        <Products
-          id="7891230"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
-      </div>
-      <div className="home__row">
-        <Products
-          id="123456"
-          title="this is product 1 and it is good product"
-          price={200}
-          rating={4}
-          image="https://images-na.ssl-images-amazon.com/images/I/5103Xi7yQgL._SL1024_.jpg"
-        />
+        {products.map((product) => (
+          <Products
+            id={product.id}
+            title={product.title}
+            price={product.price}
+            rating={4}
+            image={product.image}
+          />
+        ))}
       </div>
     </div>
   );
